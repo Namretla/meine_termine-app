@@ -4,7 +4,6 @@ workflows:
     max_build_duration: 10
     environment:
       flutter: stable
-      xcode: none
       vars:
         PACKAGE_NAME: "com.example.meinetermin"
     scripts:
@@ -17,4 +16,4 @@ workflows:
     publishing:
       email:
         recipients:
-          - dein.name@example.com  # Optional: E-Mail für Benachrichtigung
+          - info@qmb-bergmann.de  # Optional: E-Mail für Benachrichtigung
