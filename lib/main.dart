@@ -167,7 +167,7 @@ class _NeuerTerminSeiteState extends State<NeuerTerminSeite> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text('Neuer Termin'))
-      body: Padding(
+      body: Padding(padding: const EdgeInsets.all(16.0), child:
         padding: const EdgeInsets.all(16.0)
         child: Column(children: [
           TextField(
@@ -290,10 +290,11 @@ ElevatedButton(
                 });
               }
             }
-            child: Text('Termin speichern')
+            ,
+              child: Text('Termin speichern')
           )
         ])
-      )
+      ))
     );
   }
 }
