@@ -1,6 +1,6 @@
-import 'package:flutter/material.dart';
-import 'package:table_calendar/table_calendar.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:timezone/data/latest.dart' as tz;
+import 'package:timezone/timezone.dart' as tz;
 
 void main() {
   runApp(MeineTermineApp());
@@ -34,6 +34,7 @@ class _TermineHomePageState extends State<TermineHomePage> {
   @override
   void initState() {
     super.initState();
+    tz.initializeTimeZones();
     final initializationSettings = InitializationSettings(
       android: AndroidInitializationSettings('@mipmap/ic_launcher'),
       iOS: DarwinInitializationSettings(),
@@ -162,7 +163,7 @@ class _TermineHomePageState extends State<TermineHomePage> {
     required int id,
     required String titel,
     required String body,
-    required DateTime scheduledTime,
+    required DateTime tz.TZDateTime.from(scheduledTime, tz.local),
   }) async {
     var androidPlatformChannelSpecifics = AndroidNotificationDetails(
       'deine_kalender_app',
@@ -180,7 +181,7 @@ class _TermineHomePageState extends State<TermineHomePage> {
       id,
       titel,
       body,
-      scheduledTime,
+      tz.TZDateTime.from(scheduledTime, tz.local),
       notificationDetails,
       androidAllowWhileIdle: true,
       uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.absoluteTime,
