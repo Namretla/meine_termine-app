@@ -11,6 +11,7 @@ import 'package:timezone/timezone.dart' as tz;
 import 'package:table_calendar/table_calendar.dart';
 import 'package:collection/collection.dart';
 
+@pragma('vm:entry-point')
 void main() {
   runApp(MeineTermineApp());
 }
@@ -29,7 +30,24 @@ class MeineTermineApp extends StatelessWidget {
               controller: _titelController,
               decoration: InputDecoration(labelText: 'Titel'),
             ),
+            
             SizedBox(height: 16),
+            Text('Farbe auswählen:', style: TextStyle(fontWeight: FontWeight.bold)),
+            SizedBox(height: 8),
+            Wrap(
+              spacing: 8.0,
+              children: [
+                _buildColorOption(Colors.blue),
+                _buildColorOption(Colors.red),
+                _buildColorOption(Colors.green),
+                _buildColorOption(Colors.orange),
+                _buildColorOption(Colors.purple),
+                _buildColorOption(Colors.yellow),
+                _buildColorOption(Colors.brown),
+                _buildColorOption(Colors.grey),
+              ],
+            ),
+
             ElevatedButton(
               onPressed: () async {
                 final datum = await showDatePicker(
@@ -88,7 +106,24 @@ class MeineTermineApp extends StatelessWidget {
               }).toList(),
               onChanged: (farbe) => setState(() => _kategorieFarbe = farbe!),
             ),
+            
             SizedBox(height: 16),
+            Text('Farbe auswählen:', style: TextStyle(fontWeight: FontWeight.bold)),
+            SizedBox(height: 8),
+            Wrap(
+              spacing: 8.0,
+              children: [
+                _buildColorOption(Colors.blue),
+                _buildColorOption(Colors.red),
+                _buildColorOption(Colors.green),
+                _buildColorOption(Colors.orange),
+                _buildColorOption(Colors.purple),
+                _buildColorOption(Colors.yellow),
+                _buildColorOption(Colors.brown),
+                _buildColorOption(Colors.grey),
+              ],
+            ),
+
             ElevatedButton(
               onPressed: () {
                 if (_titelController.text.isNotEmpty && _ausgewaehltesDatum != null) {
@@ -217,4 +252,27 @@ ElevatedButton(
       ))
     );
   }
+
+  Widget _buildColorOption(Color color) {
+    return GestureDetector(
+      onTap: () {
+        setState(() {
+          _kategorieFarbe = color;
+        });
+      },
+      child: Container(
+        width: 32,
+        height: 32,
+        decoration: BoxDecoration(
+          color: color,
+          shape: BoxShape.circle,
+          border: Border.all(
+            color: _kategorieFarbe == color ? Colors.black : Colors.transparent,
+            width: 2,
+          ),
+        ),
+      ),
+    );
+  }
+
 }
