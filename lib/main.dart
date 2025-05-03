@@ -9,6 +9,7 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
 import 'package:table_calendar/table_calendar.dart';
+import 'package:collection/collection.dart';
 
 void main() {
   runApp(MeineTermineApp());
