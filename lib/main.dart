@@ -1,6 +1,9 @@
+
+import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
+import 'package:table_calendar/table_calendar.dart'; // Wichtig für Kalender
 
 void main() {
   runApp(MeineTermineApp());
@@ -29,7 +32,8 @@ class _TermineHomePageState extends State<TermineHomePage> {
   List<Map<String, dynamic>> termine = [];
   CalendarFormat _calendarFormat = CalendarFormat.month;
   DateTime _selectedDay = DateTime.now();
-  final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+  final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+      FlutterLocalNotificationsPlugin();
 
   @override
   void initState() {
@@ -163,7 +167,7 @@ class _TermineHomePageState extends State<TermineHomePage> {
     required int id,
     required String titel,
     required String body,
-    required DateTime tz.TZDateTime.from(scheduledTime, tz.local),
+    required DateTime scheduledTime,
   }) async {
     var androidPlatformChannelSpecifics = AndroidNotificationDetails(
       'deine_kalender_app',
@@ -184,7 +188,8 @@ class _TermineHomePageState extends State<TermineHomePage> {
       tz.TZDateTime.from(scheduledTime, tz.local),
       notificationDetails,
       androidAllowWhileIdle: true,
-      uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.absoluteTime,
+      uiLocalNotificationDateInterpretation:
+          UILocalNotificationDateInterpretation.absoluteTime,
       matchDateTimeComponents: DateTimeComponents.dateAndTime,
     );
   }
