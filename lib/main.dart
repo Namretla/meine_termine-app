@@ -13,10 +13,10 @@ class MeineTermineApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Meine Termine',
-      theme: ThemeData(primarySwatch: Colors.blue),
-      home: TermineHomePage(),
+      debugShowCheckedModeBanner: false
+      title: 'Meine Termine'
+      theme: ThemeData(primarySwatch: Colors.blue)
+      home: TermineHomePage()
     );
   }
 }
@@ -44,8 +44,8 @@ class _TermineHomePageState extends State<TermineHomePage> {
     super.initState();
     tz.initializeTimeZones();
     final initializationSettings = InitializationSettings(
-      android: AndroidInitializationSettings('@mipmap/ic_launcher'),
-      iOS: DarwinInitializationSettings(),
+      android: AndroidInitializationSettings('@mipmap/ic_launcher')
+      iOS: DarwinInitializationSettings()
     );
     flutterLocalNotificationsPlugin.initialize(initializationSettings);
   }
@@ -53,18 +53,18 @@ class _TermineHomePageState extends State<TermineHomePage> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 2,
+      length: 2
       child: Scaffold(
         appBar: AppBar(
-          title: Text('Meine Termine'),
+          title: Text('Meine Termine')
           
           actions: [
             IconButton(
-              icon: Icon(Icons.add),
+              icon: Icon(Icons.add)
               onPressed: () async {
                 final neuerTermin = await Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => NeuerTerminSeite()),
+                  context
+                  MaterialPageRoute(builder: (context) => NeuerTerminSeite())
                 );
                 if (neuerTermin != null) {
                   setState(() {
@@ -77,12 +77,12 @@ class _TermineHomePageState extends State<TermineHomePage> {
                   }
                   });
                 }
-              },
-            ),
-          ],
-        ),
-        body: _buildKalender(),
-      ),
+              }
+            )
+          ]
+        )
+        body: _buildKalender()
+      )
     );
   }
 
@@ -90,7 +90,7 @@ class _TermineHomePageState extends State<TermineHomePage> {
 
   Widget _buildKalender() {
     return TableCalendar(
-      eventLoader: _getEventsForDay,
+      eventLoader: _getEventsForDay
       
       
       
@@ -99,48 +99,49 @@ class _TermineHomePageState extends State<TermineHomePage> {
           if (events.isNotEmpty) {
             return Column(
               children: events.map((event) {
-                final Color baseColor = event['farbe'] ?? Colors.blue;
-                final bool istExtern = event['typ'] == 'Termin extern';
+                final eintrag = event as Map<String, dynamic>;
+                final Color baseColor = eintrag['farbe'] ?? Colors.blue;
+                final bool istExtern = eintrag['typ'] == 'Termin extern';
                 final Color farbe = istExtern ? baseColor : baseColor.withOpacity(0.4);
                 return Container(
-                  padding: EdgeInsets.symmetric(horizontal: 2),
-                  margin: EdgeInsets.only(bottom: 2),
+                  padding: EdgeInsets.symmetric(horizontal: 2)
+                  margin: EdgeInsets.only(bottom: 2)
                   decoration: BoxDecoration(
-                    color: farbe,
-                    borderRadius: BorderRadius.circular(4),
-                  ),
+                    color: farbe
+                    borderRadius: BorderRadius.circular(4)
+                  )
                   child: Text(
-                    event['titel'],
-                    style: TextStyle(fontSize: 10, color: Colors.white),
-                    overflow: TextOverflow.ellipsis,
-                  ),
+                    eintrag['titel']
+                    style: TextStyle(fontSize: 10, color: Colors.white)
+                    overflow: TextOverflow.ellipsis
+                  )
                 );
-              }).toList(),
+              }).toList()
             );
           }
           return SizedBox.shrink();
-        },
-      ),
+        }
+      )
 
 
 
-      focusedDay: _selectedDay,
-      firstDay: DateTime.utc(2000, 1, 1),
-      lastDay: DateTime.utc(2100, 12, 31),
-      calendarFormat: _calendarFormat,
-      selectedDayPredicate: (day) => isSameDay(_selectedDay, day),
+      focusedDay: _selectedDay
+      firstDay: DateTime.utc(2000, 1, 1)
+      lastDay: DateTime.utc(2100, 12, 31)
+      calendarFormat: _calendarFormat
+      selectedDayPredicate: (day) => isSameDay(_selectedDay, day)
       onDaySelected: (selectedDay, focusedDay) {
         setState(() {
           _selectedDay = selectedDay;
         });
-      },
+      }
       onFormatChanged: (format) {
         setState(() {
           _calendarFormat = format;
         });
-      },
-      calendarStyle: CalendarStyle(weekendTextStyle: TextStyle(color: Colors.red)),
-      headerStyle: HeaderStyle(formatButtonVisible: true, titleCentered: true),
+      }
+      calendarStyle: CalendarStyle(weekendTextStyle: TextStyle(color: Colors.red))
+      headerStyle: HeaderStyle(formatButtonVisible: true, titleCentered: true)
     );
   }
 }
@@ -165,109 +166,113 @@ class _NeuerTerminSeiteState extends State<NeuerTerminSeite> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Neuer Termin')),
+      appBar: AppBar(title: Text('Neuer Termin'))
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16.0)
         child: Column(children: [
           TextField(
-            controller: _titelController,
-            decoration: InputDecoration(labelText: 'Titel'),
-          ),
-          SizedBox(height: 16),
+            controller: _titelController
+            decoration: InputDecoration(labelText: 'Titel')
+          )
+          SizedBox(height: 16)
           ElevatedButton(
             onPressed: () async {
               final datum = await showDatePicker(
-                context: context,
-                initialDate: DateTime.now(),
-                firstDate: DateTime(2000),
-                lastDate: DateTime(2100),
+                context: context
+                initialDate: DateTime.now()
+                firstDate: DateTime(2000)
+                lastDate: DateTime(2100)
               );
               if (datum != null) {
                 setState(() {
                   _ausgewaehltesDatum = datum;
                 });
               }
-            },
+            }
             child: Text(_ausgewaehltesDatum == null
                 ? 'Datum auswählen'
-                : _ausgewaehltesDatum.toString()),
-          ),
-          SizedBox(height: 16),
+                : _ausgewaehltesDatum.toString())
+          )
+          SizedBox(height: 16)
           ElevatedButton(
             onPressed: () async {
               final time = await showTimePicker(
-                context: context,
-                initialTime: TimeOfDay.now(),
+                context: context
+                initialTime: TimeOfDay.now()
               );
               if (time != null) {
                 setState(() {
                   _startZeit = time;
                 });
               }
-            },
+            }
             child: Text(_startZeit == null
                 ? 'Startzeit auswählen'
-                : _startZeit!.format(context)),
-          ),
+                : _startZeit!.format(context))
+          )
           ElevatedButton(
             onPressed: () async {
               final time = await showTimePicker(
-                context: context,
-                initialTime: TimeOfDay.now(),
+                context: context
+                initialTime: TimeOfDay.now()
               );
               if (time != null) {
                 setState(() {
                   _endZeit = time;
                 });
               }
-            },
+            }
             child: Text(_endZeit == null
                 ? 'Endzeit auswählen'
-                : _endZeit!.format(context)),
-          ),
-          SizedBox(height: 16),
+                : _endZeit!.format(context))
+          )
+          SizedBox(height: 16)
           
-          SizedBox(height: 16),
+          SizedBox(height: 16)
           DropdownButtonFormField<String>(
-            decoration: InputDecoration(labelText: 'Kategorie wählen'),
-            value: _ausgewaehlteKategorie,
-            items: _kategorien.map((k) => DropdownMenuItem(value: k, child: Text(k))).toList(),
-            onChanged: (wert) => setState(() => _ausgewaehlteKategorie = wert),
-          ),
-          SizedBox(height: 16),
+            decoration: InputDecoration(labelText: 'Kategorie wählen')
+            value: _ausgewaehlteKategorie
+            items: _kategorien.map((k) => DropdownMenuItem(value: k, child: Text(k))).toList()
+            onChanged: (wert) => setState(() => _ausgewaehlteKategorie = wert)
+          )
+          SizedBox(height: 16)
           DropdownButtonFormField<String>(
             decoration: InputDecoration(labelText: 'Typ wählen')
-          SizedBox(height: 16),
+            value: _ausgewaehlterTyp
+            items: _typen.map((t) => DropdownMenuItem(value: t, child: Text(t))).toList()
+            onChanged: (wert) => setState(() => _ausgewaehlterTyp = wert)
+          )
+          SizedBox(height: 16)
           DropdownButtonFormField<Color>(
-            decoration: InputDecoration(labelText: 'Farbe wählen'),
-            value: _kategorieFarbe,
+            decoration: InputDecoration(labelText: 'Farbe wählen')
+            value: _kategorieFarbe
             items: [
-              Colors.blue,
-              Colors.green,
-              Colors.red,
-              Colors.orange,
-              Colors.purple,
-              Colors.teal,
-              Colors.brown,
+              Colors.blue
+              Colors.green
+              Colors.red
+              Colors.orange
+              Colors.purple
+              Colors.teal
+              Colors.brown
               Colors.pink
             ].map((farbe) {
               return DropdownMenuItem(
-                value: farbe,
+                value: farbe
                 child: Row(
                   children: [
-                    Container(width: 16, height: 16, color: farbe, margin: EdgeInsets.only(right: 8)),
-                    Text(farbe.toString().split('.').last),
-                  ],
-                ),
+                    Container(width: 16, height: 16, color: farbe, margin: EdgeInsets.only(right: 8))
+                    Text(farbe.toString().split('.').last)
+                  ]
+                )
               );
-            }).toList(),
-            onChanged: (farbe) => setState(() => _kategorieFarbe = farbe!),
-          ),
-,
-            value: _ausgewaehlterTyp,
-            items: _typen.map((t) => DropdownMenuItem(value: t, child: Text(t))).toList(),
-            onChanged: (wert) => setState(() => _ausgewaehlterTyp = wert),
-          ),
+            }).toList()
+            onChanged: (farbe) => setState(() => _kategorieFarbe = farbe!)
+          )
+
+            value: _ausgewaehlterTyp
+            items: _typen.map((t) => DropdownMenuItem(value: t, child: Text(t))).toList()
+            onChanged: (wert) => setState(() => _ausgewaehlterTyp = wert)
+          )
 ElevatedButton(
             onPressed: () {
               if (_titelController.text.isNotEmpty &&
@@ -275,20 +280,20 @@ ElevatedButton(
                   _startZeit != null &&
                   _endZeit != null) {
                 Navigator.pop(context, {
-                  'titel': _titelController.text,
-                  'datum': _ausgewaehltesDatum,
-                  'von': _startZeit!.format(context),
-                  'bis': _endZeit!.format(context),
-                  'farbe': _kategorieFarbe,
-                  'kategorie': _ausgewaehlteKategorie,
-                  'typ': _ausgewaehlterTyp,
+                  'titel': _titelController.text
+                  'datum': _ausgewaehltesDatum
+                  'von': _startZeit!.format(context)
+                  'bis': _endZeit!.format(context)
+                  'farbe': _kategorieFarbe
+                  'kategorie': _ausgewaehlteKategorie
+                  'typ': _ausgewaehlterTyp
                 });
               }
-            },
-            child: Text('Termin speichern'),
-          ),
-        ]),
-      ),
+            }
+            child: Text('Termin speichern')
+          )
+        ])
+      )
     );
   }
 }
