@@ -21,7 +21,7 @@ class MeineTermineApp extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: Text('Neuer Termin')),
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: EdgeInsets.all(16.0),
         child: Column(
           children: [
             TextField(
